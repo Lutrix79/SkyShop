@@ -30,6 +30,7 @@ public class ShopController {
         return storageService.getAllArticles();
     }
 
+    //В этой домашке не работает поиск почему-то
     @GetMapping("/search")
     public Collection<SearchResult> searchResults (String pattern) {
         return searchService.search(pattern);
