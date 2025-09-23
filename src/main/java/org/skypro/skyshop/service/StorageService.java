@@ -8,19 +8,18 @@ import org.skypro.skyshop.model.product.SimpleProduct;
 import org.skypro.skyshop.model.search.Searchable;
 import org.springframework.stereotype.Service;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
-import java.util.stream.Collectors;
+import java.util.*;
 import java.util.stream.Stream;
 
 @Service
 public class StorageService {
     private final Map<UUID, Product> storageProduct;
     private final Map<UUID, Article> storageArticle;
+    private final Map<UUID, Product> availableProducts;
 
-    public StorageService(Map<UUID, Product> storageProduct, Map<UUID, Article> storageArticle) {
+
+    public StorageService(Map<UUID, Product> storageProduct, Map<UUID, Article> storageArticle, Map<UUID, Product> availableProducts, Map<UUID, Product> availableProducts1) {
+        this.availableProducts = new HashMap<>();
         this.storageProduct = new HashMap<>();
         this.storageArticle = new HashMap<>();
         initStorage();
@@ -28,7 +27,7 @@ public class StorageService {
 
     private void initStorage(){
         //добавляем в мапу продукты
-        Product apple1 = new FixPriceProduct("Apples " + "\"" + "Свежий урожай" + "\"", UUID.randomUUID());
+        Product apple1 = new FixPriceProduct("Яблоки " + "\"" + "Свежий урожай" + "\"", UUID.randomUUID());
         Product apple2 = new DiscountProduct("Яблоки " + "\"" + "Антоновка" + "\"", 85, 15, UUID.randomUUID());
         Product apple3 = new SimpleProduct("Яблоки " + "\"" + "Золотой налив" + "\"", 150, UUID.randomUUID());
         storageProduct.put(apple1.getID(), apple1);
@@ -58,6 +57,7 @@ public class StorageService {
         storageProduct.put(orange1.getID(), orange1);
         storageProduct.put(orange2.getID(), orange2);
         storageProduct.put(orange3.getID(), orange3);
+        availableProducts.putAll(storageProduct);
 
         //добавляем в мапу статьи
         Article apples = new Article("О ПОЛЬЗЕ ЯБЛОК", "Научно доказано. Ни для кого не секрет, что яблоко помогло Ньютону открыть закон всемирного тяготения", UUID.randomUUID());
@@ -84,4 +84,9 @@ public class StorageService {
     public Collection<Product> getAllProducts() {
         return storageProduct.values();
     }
+
+    public Optional<Product> getProductById(UUID id) {
+        return Optional.ofNullable(availableProducts.get(id));
+    }
+
 }
