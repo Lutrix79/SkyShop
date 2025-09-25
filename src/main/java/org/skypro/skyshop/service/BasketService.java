@@ -3,6 +3,7 @@ package org.skypro.skyshop.service;
 import org.skypro.skyshop.model.basket.BasketItem;
 import org.skypro.skyshop.model.basket.ProductBasket;
 import org.skypro.skyshop.model.basket.UserBasket;
+import org.skypro.skyshop.model.errors.NoSuchProductException;
 import org.skypro.skyshop.model.product.Product;
 import org.springframework.stereotype.Service;
 
@@ -25,7 +26,7 @@ public class BasketService {
         if (product.isPresent()) {
             productBasket.addProductInBasket(id);
         } else {
-            throw new IllegalArgumentException("Продукт не найден по ID: " + id);
+            throw new NoSuchProductException();
         }
     }
 
