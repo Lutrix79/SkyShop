@@ -11,6 +11,14 @@ public final class UserBasket {
     private final List <BasketItem> basketItem;
     private final double total;
 
+    public List<BasketItem> getBasketItem() {
+        return basketItem;
+    }
+
+    public double getTotal() {
+        return total;
+    }
+
     public UserBasket(List<BasketItem> basketItem) {
         this.basketItem = basketItem;
         this.total = calculateTotal(basketItem);
