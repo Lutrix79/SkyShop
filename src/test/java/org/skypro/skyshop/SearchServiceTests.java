@@ -15,10 +15,10 @@ import org.skypro.skyshop.util.StorageFixture;
 
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Optional;
 
 @ExtendWith(MockitoExtension.class)
 public class SearchServiceTests {
+	private final StorageFixture storageFixture = new StorageFixture();
 
 	@Mock
 	private StorageService storageService;
@@ -26,7 +26,7 @@ public class SearchServiceTests {
 	@InjectMocks
 	private SearchService searchService;
 
-	@DisplayName("1 Поиск в случае отсутствия объектов в StorageService")
+	@DisplayName("Поиск в случае отсутствия объектов в StorageService")
 	@Test
 	public void givenEmptyStorage_WhenNoFind_ThenReturnEmptyList() {
 		String searchTerm = "NoSuchProduct";
@@ -38,26 +38,25 @@ public class SearchServiceTests {
 		Assertions.assertTrue(results.isEmpty());
 	}
 
-	@DisplayName("2 Поиск в случае, если объекты в StorageService есть, но нет подходящего")
+	@DisplayName("Поиск в случае, если объекты в StorageService есть, но нет подходящего")
 	@Test
 	public void givenFullStorage_WhenNoFind_ThenReturnEmptyList () {
-		StorageFixture storageFixture = new StorageFixture();
+
 		String searchTerm = "NoSuchProduct";
 
-		Mockito.when(storageService.getAllSearchable()).thenReturn(storageFixture.initStorageSearchable());
+		Mockito.when(storageService.getAllSearchable()).thenReturn(storageFixture.storageSearchable);
 
 		Collection<SearchResult> results = searchService.search(searchTerm);
 
 		Assertions.assertTrue(results.isEmpty());
 	}
 
-	@DisplayName("3 Поиск, когда есть подходящий объект в StorageService")
+	@DisplayName("Поиск, когда есть подходящий объект в StorageService")
 	@Test
 	public void givenFullStorage_WhenFind_ThenReturnNotEmptyList () {
-		StorageFixture storageFixture = new StorageFixture();
 		String searchTerm = "Яблоки";
 
-		Mockito.when(storageService.getAllSearchable()).thenReturn(storageFixture.initStorageSearchable());
+		Mockito.when(storageService.getAllSearchable()).thenReturn(storageFixture.storageSearchable);
 
 		Collection<SearchResult> results = searchService.search(searchTerm);
 
