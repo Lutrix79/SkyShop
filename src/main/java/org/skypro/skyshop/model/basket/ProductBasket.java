@@ -1,5 +1,6 @@
 package org.skypro.skyshop.model.basket;
 
+import org.skypro.skyshop.model.errors.NoSuchProductExceptionById;
 import org.skypro.skyshop.model.product.Product;
 import org.skypro.skyshop.service.StorageService;
 import org.springframework.stereotype.Component;
@@ -18,12 +19,12 @@ public class ProductBasket {
     }
 
     public void addProductInBasket(UUID id) {
-        Optional<Product> productById = storageService.getProductById(id);
-        if (productById.isPresent()) {
-            System.out.println("Такой продукт уже есть, увеличиваю количество на 1");
-        } else {
-            System.out.println("Это первый продукт");
-        }
+        Product productById = storageService.getProductById(id).orElseThrow(() -> new NoSuchProductExceptionById("Продукта с иднтификатором " + id.toString() +" не существует"));
+//        if (productById.isPresent()) {
+//            System.out.println("Такой продукт уже есть, увеличиваю количество на 1");
+//        } else {
+//            System.out.println("Это первый продукт");
+//        }
         productBasket.put(id, productBasket.getOrDefault(id, 0) + 1);
     }
 
