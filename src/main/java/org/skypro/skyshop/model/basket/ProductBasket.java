@@ -20,11 +20,6 @@ public class ProductBasket {
 
     public void addProductInBasket(UUID id) {
         Product productById = storageService.getProductById(id).orElseThrow(() -> new NoSuchProductExceptionById("Продукта с иднтификатором " + id.toString() +" не существует"));
-//        if (productById.isPresent()) {
-//            System.out.println("Такой продукт уже есть, увеличиваю количество на 1");
-//        } else {
-//            System.out.println("Это первый продукт");
-//        }
         productBasket.put(id, productBasket.getOrDefault(id, 0) + 1);
     }
 
